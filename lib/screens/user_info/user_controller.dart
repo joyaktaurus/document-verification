@@ -17,20 +17,20 @@ import '../../routes.dart';
 import '../../services/image_upload_service.dart';
 import '../../services/verification_services.dart';
 
-
 class UserInfoViewController extends GetxController {
   NewEntryResp argumentData = Get.arguments;
 
   RxList<XFile> imagesList = (List<XFile>.of([])).obs;
   RxString idType = ''.obs;
   var serverReceiverPath = "https://www.developerlibs.com/upload";
-  final String endPoint = 'https://demo.dm.instio.co/holidayInn/document/images';
-
+  final String endPoint =
+      'https://demo.dm.instio.co/holidayInn/document/images';
 
   void onInit() async {
     super.onInit();
     log("argumentData >>>>${argumentData.name}");
   }
+
   imageFromCamera() async {
     XFile? result = await ImagePicker()
         .pickImage(source: ImageSource.camera, imageQuality: 50);
@@ -63,19 +63,17 @@ class UserInfoViewController extends GetxController {
     argumentData.idType = value;
   }
 
-  UploaImage(BuildContext buildContext) async {
-
-    ApiResp respData = await ImageUploadServices.UploadProcess(imagesList[0],buildContext);
+  uploaImage(BuildContext buildContext) async {
+    ApiResp respData =
+        await ImageUploadServices.uploadProcess(imagesList[0], buildContext);
     if (respData.ok == false) {
       log("not Uploaded");
     } else {
-      ImageUploadResp ImageUploadCheck =
-      ImageUploadResp.fromJson(respData.rdata);
-      if (ImageUploadCheck.code?.toString() == '200') {
-        Get.toNamed(Routes.scanPage,
-            arguments: NewEntryResp(
-                name: imagesList.toString())
-        );
+      ImageUploadResp imageUploadCheck =
+          ImageUploadResp.fromJson(respData.rdata);
+      if (imageUploadCheck.code?.toString() == '200') {
+        showMsg('Image Uploaded successfully', 'Success');
+        multipartVerification(imageUploadCheck.data);
         log("Uploaded");
       } else {
         log("not Uploaded");
@@ -88,28 +86,15 @@ class UserInfoViewController extends GetxController {
     imagesList.clear();
   }
 
-  Future scan() async {
-    await Permission.camera.request();
-    String? barcode = await scanner.scan();
-    if (barcode == null) {
-      log('nothing return.');
-    } else {
-      log(barcode);
-      argumentData.scanedData = barcode;
-      // showMsg(barcode, 'Api Call');
-      multipartVerification(barcode);
-    }
-  }
-
-  multipartVerification(data) async {
+  multipartVerification(String? data) async {
     showNetworkProcessingDialog();
     ApiResp respData =
-    await VerificationServices.verificationProcess(argumentData);
+        await VerificationServices.verificationMultipartImageProcess(argumentData,idType.value,data!);
 
     if (respData.ok == false) {
     } else {
       VerificationResp verificationCheck =
-      VerificationResp.fromJson(respData.rdata);
+          VerificationResp.fromJson(respData.rdata);
       argumentData.metaInfo = verificationCheck.data?.metaInfo;
       if (verificationCheck.data?.status.toString() == 'VERIFIED') {
         log("verified");
@@ -131,8 +116,8 @@ class UserInfoViewController extends GetxController {
       return;
     }
     // Get.toNamed(Routes.verificationPage, arguments: argumentData);
-    scan();
   }
+
   void showMsg(String msg, String title, {leadingIcon, isSuccess = false}) {
     Get.snackbar(
       title,
@@ -140,7 +125,7 @@ class UserInfoViewController extends GetxController {
       icon: leadingIcon,
       snackPosition: SnackPosition.TOP,
       backgroundColor:
-      isSuccess ? Colors.green : const Color.fromARGB(255, 177, 46, 46),
+          isSuccess ? Colors.green : const Color.fromARGB(255, 177, 46, 46),
       colorText: Colors.white,
       borderRadius: 5,
       padding: const EdgeInsets.all(10),

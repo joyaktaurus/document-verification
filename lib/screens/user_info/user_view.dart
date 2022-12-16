@@ -173,36 +173,36 @@ class UserInfoView extends GetView<UserInfoViewController> {
                             height: 10,
                           ),
                           Obx((() => Column(
-                            children: [
-                              RadioListTile(
-                                title: const Text("Driving License"),
-                                value: "DRIVING_LICENSE",
-                                groupValue: controller.idType.value,
-                                onChanged: (value) =>
-                                    controller.idTypeOnchange(value),
-                              ),
-                              // RadioListTile(
-                              //     title: const Text("Voters ID"),
-                              //     value: "Voters ID",
-                              //     groupValue: controller.idType.value,
-                              //     onChanged: (value) =>
-                              //         controller.idTypeOnchange(value)),
-                              RadioListTile(
-                                title: const Text("Aadhaar"),
-                                value: "AADHAAR",
-                                groupValue: controller.idType.value,
-                                onChanged: (value) =>
-                                    controller.idTypeOnchange(value),
-                              ),
-                              RadioListTile(
-                                title: const Text("Voter ID"),
-                                value: "VOTER ID",
-                                groupValue: controller.idType.value,
-                                onChanged: (value) =>
-                                    controller.idTypeOnchange(value),
-                              )
-                            ],
-                          ))),
+                                children: [
+                                  RadioListTile(
+                                    title: const Text("Driving License"),
+                                    value: "DRIVING_LICENSE",
+                                    groupValue: controller.idType.value,
+                                    onChanged: (value) =>
+                                        controller.idTypeOnchange(value),
+                                  ),
+                                  // RadioListTile(
+                                  //     title: const Text("Voters ID"),
+                                  //     value: "Voters ID",
+                                  //     groupValue: controller.idType.value,
+                                  //     onChanged: (value) =>
+                                  //         controller.idTypeOnchange(value)),
+                                  RadioListTile(
+                                    title: const Text("Aadhaar"),
+                                    value: "AADHAAR",
+                                    groupValue: controller.idType.value,
+                                    onChanged: (value) =>
+                                        controller.idTypeOnchange(value),
+                                  ),
+                                  RadioListTile(
+                                    title: const Text("Voter ID"),
+                                    value: "VOTER ID",
+                                    groupValue: controller.idType.value,
+                                    onChanged: (value) =>
+                                        controller.idTypeOnchange(value),
+                                  )
+                                ],
+                              ))),
                           const SizedBox(
                             height: 10,
                           ),
@@ -352,7 +352,7 @@ class UserInfoView extends GetView<UserInfoViewController> {
                 MAButton(
                   text: 'Submit',
                   buttonPress: () async {
-                    controller. UploaImage(context);
+                    controller.uploaImage(context);
                   },
                   padding: const EdgeInsets.all(0),
                 )
@@ -364,4 +364,3 @@ class UserInfoView extends GetView<UserInfoViewController> {
     );
   }
 }
-

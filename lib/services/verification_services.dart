@@ -47,14 +47,14 @@ abstract class VerificationServices {
           );
     return respNew;
   }
-  static Future<ApiResp>verificationMultipartImageProcess(NewEntryResp payLoad) async {
+  static Future<ApiResp>verificationMultipartImageProcess(NewEntryResp payLoad,String value, String data,) async {
     dynamic resp;
     await errMAsync(() async {
       resp = await MyDio().post(
         ApiPaths.verification,
         data: {
-          "name": ".tmp/images/NuJtPgvIPrxJAcYrOEFfyxLKOiGsGxyt.png",
-          "documentType": "Image",
+          "image": data,
+          "documentType": value,
         },
       );
     }, title: 'Failed', dialogDismiss: true);
